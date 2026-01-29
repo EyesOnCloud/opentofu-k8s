@@ -1,0 +1,26 @@
+name: OpenTofu Plan (VMware K8s)
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install OpenTofu
+      uses: opentofu/setup-opentofu@v1
+
+    - name: Restore kubeconfig
+      run: |
+        echo "${{ secrets.KUBECONFIG_B64 }}" | base64 -d > kubeconfig
+        chmod 600 kubeconfig
+
+    - name: OpenTofu Init
+      run: tofu init
+
+    - name: OpenTofu Plan
+      run: tofu plan -var="kubeconfig_path=./kubeconfig"
