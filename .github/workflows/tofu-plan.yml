@@ -21,8 +21,12 @@ jobs:
         chmod 600 kubeconfig
 
     - name: OpenTofu Init
-      run: tofu init
+      run: |
+        cd infra
+        tofu init
 
     - name: OpenTofu Plan
-      run: tofu plan -var="kubeconfig_path=./kubeconfig"
+      run: |
+        cd infra
+        tofu plan -var="kubeconfig_path=../kubeconfig"
 
