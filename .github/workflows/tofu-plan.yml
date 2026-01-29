@@ -1,8 +1,9 @@
 name: OpenTofu Plan (VMware K8s)
 
 on:
-  pull_request:
-    branches: [ main ]
+  push:
+    branches:
+      - main
 
 jobs:
   plan:
@@ -24,3 +25,4 @@ jobs:
 
     - name: OpenTofu Plan
       run: tofu plan -var="kubeconfig_path=./kubeconfig"
+
