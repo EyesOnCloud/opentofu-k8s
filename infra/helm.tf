@@ -5,4 +5,18 @@ resource "helm_release" "nginx_ingress" {
   namespace  = "ingress-nginx"
 
   create_namespace = true
+
+  wait    = true
+  atomic = true
+  timeout = 600
+
+  values = [<<EOF
+controller:
+  service:
+    type: NodePort
+  admissionWebhooks:
+    enabled: true
+EOF
+  ]
 }
+
